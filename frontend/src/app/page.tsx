@@ -89,6 +89,9 @@ export default function Home() {
           {isViewingLive && session.isRunning && (
             <span className={styles.liveIndicator}>DEBATING...</span>
           )}
+          {!session.isRunning && session.roundHistory.length > 0 && (
+            <span className={styles.liveIndicator}>COMPLETED</span>
+          )}
         </div>
 
         {showNav && (

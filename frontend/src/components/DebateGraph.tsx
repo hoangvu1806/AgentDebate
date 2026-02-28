@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styles from "./DebateGraph.module.css";
 import AgentNode from "./AgentNode";
 import AgentDetailView from "./AgentDetailView";
@@ -8,16 +8,21 @@ import { AgentRole, AgentState } from "@/types/debate";
 
 type UIRole = "Judge" | "Con" | "Pro" | "Neutral" | "Summary";
 
-function apiRoleToUI(role: AgentRole): UIRole {
-  const map: Record<AgentRole, UIRole> = {
-    PRO: "Pro",
-    CON: "Con",
-    NEUTRAL: "Neutral",
-    JUDGE: "Judge",
-    SUMMARY: "Summary",
-  };
-  return map[role];
-}
+const UI_TO_API: Record<UIRole, AgentRole> = {
+  Pro: "PRO",
+  Con: "CON",
+  Neutral: "NEUTRAL",
+  Judge: "JUDGE",
+  Summary: "SUMMARY",
+};
+
+const API_TO_UI: Record<AgentRole, UIRole> = {
+  PRO: "Pro",
+  CON: "Con",
+  NEUTRAL: "Neutral",
+  JUDGE: "Judge",
+  SUMMARY: "Summary",
+};
 
 interface DebateGraphProps {
   onToggleDetail?: (isOpen: boolean) => void;
@@ -28,10 +33,12 @@ interface DebateGraphProps {
 export default function DebateGraph({ onToggleDetail, agents, activeAgent }: DebateGraphProps) {
   const [selectedAgent, setSelectedAgent] = useState<UIRole | null>(null);
   const [zoomingAgent, setZoomingAgent] = useState<UIRole | null>(null);
+  const frozenAgentsRef = useRef<Record<AgentRole, AgentState> | null>(null);
 
   const handleNodeClick = (role: UIRole) => {
     setZoomingAgent(role);
     setTimeout(() => {
+      frozenAgentsRef.current = structuredClone(agents);
       setSelectedAgent(role);
       setZoomingAgent(null);
       onToggleDetail?.(true);
@@ -39,29 +46,29 @@ export default function DebateGraph({ onToggleDetail, agents, activeAgent }: Deb
   };
 
   const handleBack = () => {
+    frozenAgentsRef.current = null;
     setSelectedAgent(null);
     onToggleDetail?.(false);
   };
 
+  const handleNavigate = (role: UIRole) => {
+    frozenAgentsRef.current = structuredClone(agents);
+    setSelectedAgent(role);
+  };
+
   const isNodeActive = (uiRole: UIRole): boolean => {
     if (!activeAgent) return false;
-    return apiRoleToUI(activeAgent) === uiRole;
+    return API_TO_UI[activeAgent] === uiRole;
   };
 
   const getAgentReasoning = (uiRole: UIRole): string => {
-    const roleMap: Record<UIRole, AgentRole> = {
-      Pro: "PRO",
-      Con: "CON",
-      Neutral: "NEUTRAL",
-      Judge: "JUDGE",
-      Summary: "SUMMARY",
-    };
-    const apiRole = roleMap[uiRole];
-    const agentState = agents[apiRole];
+    const apiRole = UI_TO_API[uiRole];
+    const liveState = agents[apiRole];
+    const frozenState = frozenAgentsRef.current?.[apiRole];
 
-    // Prioritize live stream buffer if agent is actively streaming
-    if (agentState.streamBuffer) return agentState.streamBuffer;
-    if (agentState.reasoning) return agentState.reasoning;
+    if (liveState.streamBuffer) return liveState.streamBuffer;
+    if (liveState.reasoning) return liveState.reasoning;
+    if (frozenState?.reasoning) return frozenState.reasoning;
     return "";
   };
 
@@ -69,11 +76,11 @@ export default function DebateGraph({ onToggleDetail, agents, activeAgent }: Deb
     const reasoningText = getAgentReasoning(selectedAgent);
     return (
       <div className={styles.graphContainer}>
-        <AgentDetailView 
+        <AgentDetailView
           role={selectedAgent}
           reasoningText={reasoningText}
           onBack={handleBack}
-          onNavigate={setSelectedAgent}
+          onNavigate={handleNavigate}
         />
       </div>
     );
@@ -99,8 +106,7 @@ export default function DebateGraph({ onToggleDetail, agents, activeAgent }: Deb
         <div className={`${styles.nodePosition} ${styles.bottomNode} ${zoomingAgent === 'Neutral' ? styles.zoomActive : zoomingAgent ? styles.fadeOut : ''}`}>
           <AgentNode role="Neutral" isActive={isNodeActive("Neutral")} onClick={() => handleNodeClick("Neutral")} />
         </div>
-        
-        {/* Only show Summary node if it has text (meaning debate reached the end) or is currently active */}
+
         {(agents.SUMMARY.reasoning || agents.SUMMARY.streamBuffer || isNodeActive("Summary")) && (
           <div className={`${styles.nodePosition} ${styles.centerNode} ${zoomingAgent === 'Summary' ? styles.zoomActive : zoomingAgent ? styles.fadeOut : ''}`}>
             <AgentNode role="Summary" isActive={isNodeActive("Summary")} onClick={() => handleNodeClick("Summary")} />
