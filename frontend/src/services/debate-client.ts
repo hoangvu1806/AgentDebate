@@ -19,7 +19,7 @@ export function streamDebate(
 
   const body = JSON.stringify({
     topic: params.topic,
-    max_rounds: params.maxRounds ?? 3,
+    max_rounds: params.maxRounds,
     enable_streaming: params.enableStreaming ?? true,
     enable_neutral_agent: params.enableNeutralAgent ?? true,
   });

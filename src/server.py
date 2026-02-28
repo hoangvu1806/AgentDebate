@@ -3,7 +3,7 @@ import json
 import logging
 import os
 import sys
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Optional
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -32,8 +32,8 @@ app.add_middleware(
 
 
 class DebateRequest(BaseModel):
-    topic: str          # raw user input (may be long, with context)
-    max_rounds: int = 2
+    topic: str
+    max_rounds: Optional[int] = None
     enable_streaming: bool = True
     enable_neutral_agent: bool = True
 
@@ -69,7 +69,7 @@ async def stream_debate(request: DebateRequest):
             topic=extracted_topic,
             user_context=raw_input,
             round_number=1,
-            max_rounds=request.max_rounds,
+            max_rounds=request.max_rounds or settings.debate.max_rounds,
             enable_streaming=request.enable_streaming,
             pro_output=empty_output,
             con_output=empty_output,

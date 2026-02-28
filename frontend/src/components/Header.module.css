@@ -57,7 +57,7 @@
 }
 
 .topicContainer {
-  flex: 0 1 600px;
+  flex: 0 1 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;

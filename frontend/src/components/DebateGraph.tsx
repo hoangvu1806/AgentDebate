@@ -35,10 +35,26 @@ export default function DebateGraph({ onToggleDetail, agents, activeAgent }: Deb
   const [zoomingAgent, setZoomingAgent] = useState<UIRole | null>(null);
   const frozenAgentsRef = useRef<Record<AgentRole, AgentState> | null>(null);
 
+  const updateFrozenSnapshot = () => {
+    const existing = frozenAgentsRef.current;
+    if (!existing) {
+      frozenAgentsRef.current = structuredClone(agents);
+      return;
+    }
+    const merged = { ...existing };
+    for (const role of Object.keys(agents) as AgentRole[]) {
+      const live = agents[role];
+      if (live.reasoning || live.streamBuffer) {
+        merged[role] = { ...live };
+      }
+    }
+    frozenAgentsRef.current = merged;
+  };
+
   const handleNodeClick = (role: UIRole) => {
     setZoomingAgent(role);
+    updateFrozenSnapshot();
     setTimeout(() => {
-      frozenAgentsRef.current = structuredClone(agents);
       setSelectedAgent(role);
       setZoomingAgent(null);
       onToggleDetail?.(true);
@@ -52,7 +68,6 @@ export default function DebateGraph({ onToggleDetail, agents, activeAgent }: Deb
   };
 
   const handleNavigate = (role: UIRole) => {
-    frozenAgentsRef.current = structuredClone(agents);
     setSelectedAgent(role);
   };
 
