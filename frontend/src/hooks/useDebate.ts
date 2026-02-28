@@ -89,10 +89,12 @@ export function useDebate() {
             };
           }
 
+          const isViewingLive = prev.viewingRound === prev.currentRound;
+
           return {
             ...prev,
             currentRound,
-            viewingRound: currentRound,
+            viewingRound: isViewingLive ? currentRound : prev.viewingRound,
             activeAgent: event.agent,
             agents: updatedAgents,
             roundHistory: history,
@@ -158,7 +160,7 @@ export function useDebate() {
     (topic: string, maxRounds: number = 3) => {
       controllerRef.current?.abort();
 
-      const newSession = createInitialSession(topic, maxRounds);
+      const newSession = createInitialSession("", maxRounds);
       newSession.isRunning = true;
       setSession(newSession);
       setError(null);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type KeyboardEvent } from "react";
+import { useRef, useState, type KeyboardEvent, type ChangeEvent } from "react";
 import styles from "./ChatInput.module.css";
 
 interface ChatInputProps {
@@ -10,37 +10,49 @@ interface ChatInputProps {
 
 export default function ChatInput({ onSubmit, disabled = false }: ChatInputProps) {
   const [value, setValue] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = () => {
     const trimmed = value.trim();
     if (!trimmed || disabled) return;
     onSubmit(trimmed);
     setValue("");
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
   };
 
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+    const el = e.target;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.inputWrapper}>
-        <input 
-          type="text" 
-          className={styles.input} 
+        <textarea
+          ref={textareaRef}
+          className={styles.input}
           placeholder="Enter a debate topic and press Enter..."
           aria-label="Input message"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
           disabled={disabled}
+          rows={1}
         />
-        <button 
-          className={styles.sendButton} 
-          aria-label="Send" 
+        <button
+          className={styles.sendButton}
+          aria-label="Send"
           onClick={handleSubmit}
           disabled={disabled}
         >

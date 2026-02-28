@@ -23,16 +23,22 @@
 .input {
   width: 100%;
   padding: 0.6rem 3.5rem 0.6rem 1.25rem;
-  border-radius: 30px;
+  border-radius: 20px;
   background: rgba(15, 20, 30, 0.6);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border-color);
   color: var(--foreground);
   font-size: 0.875rem;
+  font-family: inherit;
   outline: none;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  resize: none;
+  overflow-y: auto;
+  min-height: 40px;
+  max-height: 120px;
+  line-height: 1.4;
 }
 
 .input:focus {

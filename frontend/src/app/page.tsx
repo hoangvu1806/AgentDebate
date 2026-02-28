@@ -52,7 +52,8 @@ export default function Home() {
     }, 300);
   };
 
-  const topic = session.topic || "AI Debate System";
+  const topic = session.topic
+    || (session.isRunning ? "Extracting topic..." : "AI Debate System");
   const roundLabel = session.isRunning && isViewingLive
     ? `ROUND ${session.currentRound}`
     : session.roundHistory.length > 0
