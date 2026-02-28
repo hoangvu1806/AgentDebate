@@ -1,0 +1,188 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 1rem;
+}
+
+.roundTracker {
+  position: absolute;
+  top: 6rem;
+  left: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--foreground);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 20;
+  opacity: 0.4;
+}
+
+.prevButton {
+  left: 1rem;
+}
+
+.nextButton {
+  right: 1rem;
+}
+
+.navButton:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+  color: var(--primary);
+  text-shadow: 0 0 15px var(--primary-glow);
+}
+
+.navButton:active {
+  transform: translateY(-50%) scale(0.9);
+}
+
+.roundText {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0.6;
+}
+
+.roundProgress {
+  width: 80px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+  transition: width 0.3s ease;
+}
+
+.graphWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  animation-fill-mode: both;
+}
+
+.slideIn {
+  animation: roundSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.slideOutLeft {
+  animation: roundSlideOutLeft 0.3s cubic-bezier(0.55, 0, 1, 0.45) both;
+}
+
+.slideOutRight {
+  animation: roundSlideOutRight 0.3s cubic-bezier(0.55, 0, 1, 0.45) both;
+}
+
+@keyframes roundSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes roundSlideOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-60px) scale(0.92);
+    filter: blur(6px);
+  }
+}
+
+@keyframes roundSlideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(60px) scale(0.92);
+    filter: blur(6px);
+  }
+}
+
+.navDisabled {
+  opacity: 0.1 !important;
+  cursor: default !important;
+  pointer-events: none;
+}
+
+.liveIndicator {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--secondary);
+  text-shadow: 0 0 8px var(--secondary-glow);
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.errorBanner {
+  position: absolute;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 0, 60, 0.15);
+  border: 1px solid rgba(255, 0, 60, 0.3);
+  color: var(--secondary);
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}

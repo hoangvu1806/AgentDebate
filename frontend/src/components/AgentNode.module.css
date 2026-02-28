@@ -1,0 +1,163 @@
+.nodeContainer {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.nodeContainer:hover, .nodeContainer.active {
+  transform: scale(1.1);
+  z-index: 20;
+}
+
+.diamondOuter {
+  width: 100%;
+  height: 100%;
+  transform: rotate(45deg);
+  background: rgba(15, 20, 30, 0.6);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  border-radius: 16px; /* mềm mại hơn */
+}
+
+.diamondOuter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform: rotate(-45deg) translate(-25%, -25%);
+}
+
+.nodeContainer:hover .diamondOuter::before, .nodeContainer.active .diamondOuter::before {
+  opacity: 1;
+}
+
+.diamondInner {
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px; /* mềm mại hơn */
+}
+
+.content {
+  transform: rotate(-45deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.roleText {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--foreground);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Colors by Role */
+.judge .diamondOuter {
+  border-color: rgba(176, 38, 255, 0.5);
+}
+.judge:hover .diamondOuter, .judge.active .diamondOuter {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(176, 38, 255, 0.6), inset 0 0 15px rgba(176, 38, 255, 0.3);
+}
+
+.pro .diamondOuter {
+  border-color: rgba(0, 240, 255, 0.5);
+}
+.pro:hover .diamondOuter, .pro.active .diamondOuter {
+  border-color: var(--primary);
+  box-shadow: 0 0 20px var(--primary-glow), inset 0 0 15px var(--primary-glow);
+}
+
+.con .diamondOuter {
+  border-color: rgba(255, 0, 60, 0.5);
+}
+.con:hover .diamondOuter, .con.active .diamondOuter {
+  border-color: var(--secondary);
+  box-shadow: 0 0 20px var(--secondary-glow), inset 0 0 15px var(--secondary-glow);
+}
+
+.neutral .diamondOuter {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.neutral:hover .diamondOuter, .neutral.active .diamondOuter {
+  border-color: #fff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.summary .diamondOuter {
+  border-color: rgba(255, 215, 0, 0.5); /* Gold */
+}
+.summary:hover .diamondOuter, .summary.active .diamondOuter {
+  border-color: #ffd700;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* Active State */
+.activeGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(176, 38, 255, 0.4) 0%, transparent 60%);
+  filter: blur(20px);
+  z-index: -1;
+  animation: pulse 2s infinite alternate;
+}
+
+.judge.active .activeGlow { background: radial-gradient(circle, rgba(176, 38, 255, 0.4) 0%, transparent 60%); }
+.pro.active .activeGlow { background: radial-gradient(circle, rgba(0, 240, 255, 0.4) 0%, transparent 60%); }
+.con.active .activeGlow { background: radial-gradient(circle, rgba(255, 0, 60, 0.4) 0%, transparent 60%); }
+.neutral.active .activeGlow { background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%); }
+.summary.active .activeGlow { background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 60%); }
+
+.active .diamondOuter {
+  border-width: 2px;
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+.isJudge {
+  width: 200px;
+  height: 200px;
+}
+
+.isJudge .roleText {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.isJudge.active .activeGlow {
+  width: 220px;
+  height: 220px;
+}

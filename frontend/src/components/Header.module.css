@@ -1,0 +1,165 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 0;
+  gap: 1.5rem;
+  z-index: 20;
+}
+
+.menuButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.menuButton:hover {
+  transform: scale(1.1);
+}
+
+.diamondOuter {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--primary);
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px var(--primary-glow), inset 0 0 6px var(--primary-glow);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.diamondInner {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--secondary);
+  box-shadow: 0 0 6px var(--secondary-glow);
+}
+
+.menuButton:hover .diamondOuter {
+  border-color: var(--secondary);
+  box-shadow: 0 0 20px var(--secondary-glow), inset 0 0 10px var(--secondary-glow);
+}
+
+.menuButton:hover .diamondInner {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.topicContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--panel-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.3rem 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: 44px;
+}
+
+.topicContainer::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.topicContainer::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 10px rgba(176, 38, 255, 0.4);
+}
+
+.topicLabel {
+  font-size: 0.65rem;
+  color: var(--secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.1rem;
+  font-weight: bold;
+}
+
+.topicText {
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--foreground);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.profileButton {
+  background: transparent;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.profileButton:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 15px var(--primary-glow);
+  transform: scale(1.05);
+}
+
+.profileInner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: var(--glass-blur);
+  position: relative;
+}
+
+.profileInner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--foreground);
+  opacity: 0.5;
+}
