@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, type MouseEvent } from "react";
 import styles from "./AgentDetailModal.module.css";
 
 interface AgentDetailModalProps {
@@ -34,7 +34,7 @@ export default function AgentDetailModal({ role, onClose }: AgentDetailModalProp
     <div className={styles.overlay} onClick={onClose}>
       <div 
         className={`${styles.modal} ${getRoleClass()}`} 
-        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+        onClick={(e: MouseEvent) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
       >

@@ -1,4 +1,4 @@
-import React from "react";
+import { type KeyboardEvent } from "react";
 import styles from "./AgentNode.module.css";
 
 interface AgentNodeProps {
@@ -31,7 +31,7 @@ export default function AgentNode({ role, isActive = false, onClick }: AgentNode
       onClick={onClick}
       role="button"
       tabIndex={0}
-      onKeyDown={(e: React.KeyboardEvent) => { if(e.key === 'Enter') onClick?.() }}
+      onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => { if(e.key === 'Enter') onClick?.() }}
     >
       <div className={styles.diamondOuter}>
         <div className={styles.diamondInner}>
