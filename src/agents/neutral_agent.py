@@ -1,11 +1,11 @@
-"""Neutral Agent -- provides objective analysis of both sides."""
+"""Neutral Agent -- provides an independent third perspective."""
 
 from agents.base_agent import BaseAgent
 from models.state import DebateState
 
 
 class NeutralAgent(BaseAgent):
-    """Agent that delivers an impartial analysis of both arguments."""
+    """Agent that offers overlooked facts, nuances, and trade-offs."""
 
     @property
     def name(self) -> str:
@@ -18,31 +18,43 @@ class NeutralAgent(BaseAgent):
     def build_prompt(self, state: DebateState) -> str:
         pro_conclusion = state.get("pro_output", {}).get("conclusion", "N/A")
         con_conclusion = state.get("con_output", {}).get("conclusion", "N/A")
-        user_context = state.get("user_context", "")
-        context_section = f"=== BACKGROUND CONTEXT (from the user) ===\n{user_context}\n\n" if user_context else ""
+
+        context_section = ""
+        if state["round_number"] == 1:
+            user_context = state.get("user_context", "")
+            if user_context:
+                context_section = (
+                    f"=== BACKGROUND CONTEXT ===\n{user_context}\n\n"
+                )
 
         return (
-            "You are an impartial fact-checker and analyst.\n\n"
+            "You are an independent analyst in a structured debate. You do NOT "
+            "judge who is winning. Instead, you provide a THIRD PERSPECTIVE that "
+            "neither PRO nor CON has considered.\n\n"
+            "YOUR ROLE:\n"
+            "- Surface overlooked evidence, data, or real-world examples.\n"
+            "- Identify hidden assumptions in BOTH sides.\n"
+            "- Propose nuances, edge cases, or conditions under which "
+            "each side's argument breaks down.\n"
+            "- Offer a balanced, fact-driven viewpoint that enriches the debate.\n\n"
             "RULES:\n"
-            "- Speak in FIRST PERSON (I observe, I find, I note).\n"
+            "- Speak in FIRST PERSON (I note, I observe, I suggest).\n"
             "- Respond in the SAME LANGUAGE as the topic.\n"
-            "- Stay strictly on topic. No filler.\n"
-            "- Analyze ONLY the specific arguments presented below.\n"
-            "- If additional context is provided, use it to assess claims for accuracy.\n"
-            "- Identify which side has stronger evidence and logic.\n"
-            "- Point out any logical fallacies or unsupported claims from either side.\n"
-            "- Be precise and analytical, not vague.\n\n"
+            "- Do NOT declare a winner or say which side is stronger.\n"
+            "- Do NOT repeat arguments already made by PRO or CON.\n"
+            "- Every claim must cite concrete evidence or reasoning.\n"
+            "- Be precise. No filler.\n\n"
             f"{context_section}"
-            f"Debate Topic: {state['topic']}\n"
+            f"Proposition: {state['topic']}\n"
             f"Round: {state['round_number']} / {state['max_rounds']}\n\n"
-            f"PRO argues:\n\"{pro_conclusion}\"\n\n"
-            f"CON argues:\n\"{con_conclusion}\"\n\n"
+            f"PRO's position:\n\"{pro_conclusion}\"\n\n"
+            f"CON's position:\n\"{con_conclusion}\"\n\n"
             "=== TASK ===\n"
-            "Analyze both arguments on their specific merits.\n\n"
+            "Provide your independent analysis.\n\n"
             "[REASONING]\n"
-            "<Your point-by-point analysis (6-10 lines). Compare the specific "
-            "claims, evidence quality, and logical consistency of each side.>\n\n"
+            "<Identify 3-4 overlooked factors, hidden assumptions, or "
+            "real-world complications that neither side addressed.>\n\n"
             "[CONCLUSION]\n"
-            "<Your assessment in 2-3 sentences. State which side currently "
-            "has the stronger case and why, based on the arguments presented.>\n"
+            "<Synthesize your findings into 2-3 sentences. State the key "
+            "nuance or trade-off that the debate is missing.>\n"
         )

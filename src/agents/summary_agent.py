@@ -1,11 +1,11 @@
-"""Summary Agent -- hypothesizes and synthesizes the debate."""
+"""Summary Agent -- synthesizes the debate into a final answer."""
 
 from agents.base_agent import BaseAgent
 from models.state import DebateState
 
 
 class SummaryAgent(BaseAgent):
-    """Agent that summarizes the debate and declares the final answer."""
+    """Agent that synthesizes all rounds into a definitive answer."""
 
     @property
     def name(self) -> str:
@@ -16,7 +16,6 @@ class SummaryAgent(BaseAgent):
         return "summary_output"
 
     def _extract_history_text(self, state: DebateState) -> str:
-        """Safely extract history as plain text regardless of message type."""
         items = state.get("history", [])
         parts = []
         for item in items:
@@ -31,25 +30,26 @@ class SummaryAgent(BaseAgent):
         history_section = ""
         if history_text:
             history_section = (
-                f"=== FULL DEBATE RECORD ===\n{history_text}\n\n"
+                f"=== DEBATE RECORD ===\n{history_text}\n\n"
             )
 
         return (
-            "You are the master summarizer of this debate.\n"
-            "The debate has concluded. Your job is to synthesize everything.\n\n"
+            "You are the master synthesizer. The debate has concluded. "
+            "Your job is to distill ALL rounds into one authoritative answer.\n\n"
             "RULES:\n"
-            "- Speak in FIRST PERSON (I summarize, I conclude).\n"
-            "- Respond in the SAME LANGUAGE as the topic.\n"
-            "- Be objective, practical, and highly clear.\n\n"
-            f"Topic: {state['topic']}\n\n"
+            "- Speak in FIRST PERSON.\n"
+            "- Respond in the SAME LANGUAGE as the proposition.\n"
+            "- Be objective, practical, and definitive.\n"
+            "- Credit the strongest arguments from each side.\n\n"
+            f"Proposition: {state['topic']}\n\n"
             f"{history_section}"
             "=== TASK ===\n"
-            "Provide a final, master summary of the debate.\n\n"
+            "Deliver the final synthesis.\n\n"
             "[REASONING]\n"
-            "<Your step-by-step synthesis (10-15 lines). Briefly walk through the "
-            "evolution of the debate. Highlight the strongest arguments from PRO and CON. "
-            "Identify the defining points that settled the debate.>\n\n"
+            "<8-12 lines: Walk through the debate arc. Highlight the "
+            "strongest arguments from PRO, CON, and NEUTRAL. Identify "
+            "the defining moments that settled the outcome.>\n\n"
             "[CONCLUSION]\n"
-            "<Your final summary (3-5 sentences). Clearly declare the winning perspective "
-            "and provide the best, most practical answer to the topic question.>\n"
+            "<3-5 sentences: Declare the winning perspective and provide "
+            "the best practical answer to the proposition.>\n"
         )

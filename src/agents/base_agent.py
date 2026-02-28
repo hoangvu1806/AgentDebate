@@ -128,8 +128,5 @@ class BaseAgent(ABC):
 
     def _format_history_entry(self, round_number: int, output: AgentOutput) -> str:
         return (
-            f"\n[{self.name}] Round {round_number}\n"
-            f"{'=' * 40}\n"
-            f"Reasoning:\n{output['reasoning']}\n\n"
-            f"Conclusion:\n{output['conclusion']}"
+            f"[{self.name}] Round {round_number}: {output['conclusion']}"
         )
