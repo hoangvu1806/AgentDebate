@@ -27,7 +27,7 @@ export default function AgentNode({ role, isActive = false, onClick }: AgentNode
 
   return (
     <div 
-      className={`${styles.nodeContainer} ${getRoleColor()} ${isActive ? styles.active : ""} ${role === "Judge" ? styles.isJudge : ""}`}
+      className={`${styles.nodeContainer} ${getRoleColor()} ${isActive ? styles.active : ""} ${role === "Judge" ? styles.isJudge : ""} ${role === "Summary" ? styles.isSummary : ""}`}
       onClick={onClick}
       role="button"
       tabIndex={0}

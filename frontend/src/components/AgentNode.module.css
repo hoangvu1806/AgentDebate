@@ -111,11 +111,18 @@
 }
 
 .summary .diamondOuter {
-  border-color: rgba(255, 215, 0, 0.5); /* Gold */
+  border-color: rgba(255, 215, 0, 0.4);
+  background: linear-gradient(135deg, rgba(20, 25, 35, 0.95), rgba(40, 45, 60, 0.9));
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(255, 215, 0, 0.1);
 }
+
 .summary:hover .diamondOuter, .summary.active .diamondOuter {
   border-color: #ffd700;
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 0 15px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.summary .diamondInner {
+  border: 1px solid rgba(255, 215, 0, 0.2);
 }
 
 /* Active State */
@@ -136,7 +143,7 @@
 .pro.active .activeGlow { background: radial-gradient(circle, rgba(0, 240, 255, 0.4) 0%, transparent 60%); }
 .con.active .activeGlow { background: radial-gradient(circle, rgba(255, 0, 60, 0.4) 0%, transparent 60%); }
 .neutral.active .activeGlow { background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 60%); }
-.summary.active .activeGlow { background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, transparent 60%); }
+.summary.active .activeGlow { background: radial-gradient(circle, rgba(255, 215, 0, 0.45) 0%, transparent 65%); }
 
 .active .diamondOuter {
   border-width: 2px;
@@ -152,12 +159,17 @@
   height: 200px;
 }
 
-.isJudge .roleText {
-  font-size: 1.5rem;
+.isSummary {
+  width: 180px;
+  height: 180px;
+}
+
+.isJudge .roleText, .isSummary .roleText {
+  font-size: 1.4rem;
   letter-spacing: 2px;
 }
 
-.isJudge.active .activeGlow {
+.isJudge.active .activeGlow, .isSummary.active .activeGlow {
   width: 220px;
   height: 220px;
 }
