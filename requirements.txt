@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+sse-starlette
+langgraph
+langchain-google-genai
+python-dotenv
+colorama
