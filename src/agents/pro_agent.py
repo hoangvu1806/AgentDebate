@@ -53,6 +53,7 @@ class ProAgent(BaseAgent):
             "RULES:\n"
             "- Speak in FIRST PERSON.\n"
             "- Respond in the SAME LANGUAGE as the proposition.\n"
+            "- NEVER use greetings, pleasantries, or address the audience (e.g., no 'Hello', 'Chào', 'Thưa quý vị', 'Ladies and gentlemen').\n"
             "- No filler, no hedging, no generic statements.\n"
             "- Every claim needs concrete backing.\n\n"
             f"{context_section}"

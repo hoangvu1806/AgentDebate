@@ -52,6 +52,7 @@ class TopicExtractor:
             "- Output ONLY the proposition. No explanation, no preamble, no quotes.\n"
             "- Must be a declarative statement, NEVER a question.\n"
             "- Must be debatable with two clear opposing positions.\n"
+            "- NEVER use greetings, pleasantries, or address the user (e.g., no 'Hello', 'Chào', 'Thưa quý vị', 'Ladies and gentlemen').\n"
             "- Keep it concise: one sentence, under 15 words.\n"
             "- Use the SAME LANGUAGE as the user's input.\n"
             "- If the input is already a clear proposition, return it as-is.\n\n"

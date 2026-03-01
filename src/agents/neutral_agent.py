@@ -40,6 +40,7 @@ class NeutralAgent(BaseAgent):
             "RULES:\n"
             "- Speak in FIRST PERSON (I note, I observe, I suggest).\n"
             "- Respond in the SAME LANGUAGE as the topic.\n"
+            "- NEVER use greetings, pleasantries, or address the audience (e.g., no 'Hello', 'Chào', 'Thưa quý vị', 'Ladies and gentlemen').\n"
             "- Do NOT declare a winner or say which side is stronger.\n"
             "- Do NOT repeat arguments already made by PRO or CON.\n"
             "- Every claim must cite concrete evidence or reasoning.\n"

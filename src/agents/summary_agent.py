@@ -39,6 +39,7 @@ class SummaryAgent(BaseAgent):
             "RULES:\n"
             "- Speak in FIRST PERSON.\n"
             "- Respond in the SAME LANGUAGE as the proposition.\n"
+            "- NEVER use greetings, pleasantries, or address the audience (e.g., no 'Hello', 'Chào', 'Thưa quý vị', 'Ladies and gentlemen').\n"
             "- Be objective, practical, and definitive.\n"
             "- Credit the strongest arguments from each side.\n\n"
             f"Proposition: {state['topic']}\n\n"
